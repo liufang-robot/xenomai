@@ -1573,12 +1573,13 @@ int rt_task_inquire(RT_TASK *task, RT_TASK_INFO *info)
 
 	ret = __bt(threadobj_stat(&tcb->thobj, &info->stat));
 	if (ret)
-		goto out;
+		goto out_unlock;
 
 	strcpy(info->name, tcb->name);
 	info->prio = threadobj_get_priority(&tcb->thobj);
 	info->pid = threadobj_get_pid(&tcb->thobj);
 
+out_unlock:
 	put_alchemy_task(tcb);
 out:
 	CANCEL_RESTORE(svc);
